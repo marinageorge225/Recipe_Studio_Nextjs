@@ -29,7 +29,7 @@ export default async function RecipeDetailsPage({
       <div className="grid gap-8 md:grid-cols-2">
         <div className="relative h-72 w-full overflow-hidden rounded-3xl md:h-96">
           <Image
-            src={recipe.image}
+            src={recipe.image || "/placeholder-recipe.jpg"}
             alt={recipe.name}
             fill
             sizes="(min-width: 768px) 50vw, 100vw"

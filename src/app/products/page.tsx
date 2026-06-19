@@ -6,6 +6,7 @@ import {
   searchRecipes,
 } from "../../../lib/recipes";
 import type { Recipe } from "../../../types/recipe";
+import { Suspense } from "react";
 
 export default async function Products({
   searchParams,
@@ -33,7 +34,9 @@ export default async function Products({
       </div>
 
       <div className="mb-10">
-        <RecipeFilters cuisines={cuisines} />
+        <Suspense fallback={null}>
+          <RecipeFilters cuisines={cuisines} />
+        </Suspense>
       </div>
 
       <RecipeGrid recipes={recipes} />

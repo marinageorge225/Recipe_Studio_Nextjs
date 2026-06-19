@@ -29,7 +29,7 @@ export default function Contact() {
 
   if (status === "success") {
     return (
-      <div className="rounded-3xl bg-orange-50 p-8 text-center">
+      <div className="rounded-3xl bg-orange-50 p-20 m-20 text-center ">
         <p className="text-lg font-semibold text-gray-900">
           Thanks for reaching out!
         </p>

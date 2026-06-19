@@ -13,7 +13,7 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
     >
       <div className="relative h-48 w-full overflow-hidden">
         <Image
-          src={recipe.image}
+          src={recipe.image || "/placeholder-recipe.jpg"}
           alt={recipe.name}
           fill
           sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
