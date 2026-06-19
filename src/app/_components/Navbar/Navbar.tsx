@@ -94,7 +94,7 @@ export default function Navbar() {
             <div className="relative">
               <button
                 onClick={() => setMenuOpen((open) => !open)}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-orange-400 to-rose-400 text-sm font-semibold text-white shadow-sm transition hover:brightness-105"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-linear-to-br from-orange-400 to-rose-400 text-sm font-semibold text-white shadow-sm transition hover:brightness-105"
                 title={user.name}
               >
                 {getInitials(user.name) || "?"}

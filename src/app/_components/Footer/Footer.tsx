@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   SiFacebook,
   SiInstagram,
@@ -7,6 +10,12 @@ import {
 } from "@icons-pack/react-simple-icons";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  if (pathname === "/login" || pathname === "/register") {
+    return null;
+  }
+
   return (
     <footer className="bg-orange-50 border-t border-orange-100">
       <div className="mx-auto max-w-7xl px-8 py-12">
