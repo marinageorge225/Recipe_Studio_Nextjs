@@ -1,50 +1,67 @@
-import Link from "next/link";
 import Image from "next/image";
-import { Clock, Star } from "lucide-react";
+import Link from "next/link";
+import { Clock, Star, Users } from "lucide-react";
 import type { Recipe } from "../../../../types/recipe";
 
 export default function RecipeCard({ recipe }: { recipe: Recipe }) {
-  const totalTime = recipe.prepTimeMinutes + recipe.cookTimeMinutes;
-
   return (
     <Link
       href={`/recipes/${recipe.id}`}
-      className="group block overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-gray-100 transition hover:-translate-y-1 hover:shadow-lg"
+      className="group flex flex-col overflow-hidden rounded-3xl border border-stone-100 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-orange-100 hover:shadow-xl"
     >
-      <div className="relative h-48 w-full overflow-hidden">
+      {/* Image */}
+      <div className="relative h-48 w-full overflow-hidden bg-stone-100">
         <Image
           src={recipe.image || "/placeholder-recipe.jpg"}
           alt={recipe.name}
           fill
-          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover transition duration-300 group-hover:scale-105"
+          sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          className="object-cover transition duration-500 group-hover:scale-[1.04]"
         />
-
-        <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-orange-600">
+        {/* Cuisine badge */}
+        <span className="absolute left-3 top-3 rounded-xl bg-white/95 px-3 py-1 text-[11px] font-bold text-orange-600 shadow-sm backdrop-blur-sm">
           {recipe.cuisine}
         </span>
       </div>
 
-      <div className="p-4">
-        <h3 className="line-clamp-1 text-base font-semibold text-gray-900">
+      {/* Content */}
+      <div className="flex flex-1 flex-col gap-3 p-4">
+        <h3 className="line-clamp-2 font-serif text-base font-bold leading-snug text-stone-900 group-hover:text-orange-600 transition duration-200">
           {recipe.name}
         </h3>
 
-        <div className="mt-2 flex items-center gap-3 text-xs text-gray-500">
-          <span className="flex items-center gap-1">
-            <Clock size={14} />
-            {totalTime} min
-          </span>
+        {/* Meta row */}
+        <div className="mt-auto flex items-center justify-between text-xs text-stone-500">
+          <div className="flex items-center gap-1">
+            <Clock size={13} className="text-orange-400" />
+            <span>{recipe.prepTimeMinutes + recipe.cookTimeMinutes} min</span>
+          </div>
 
-          <span className="flex items-center gap-1">
-            <Star size={14} className="fill-orange-500 text-orange-500" />
-            {recipe.rating}
-          </span>
+          <div className="flex items-center gap-1">
+            <Users size={13} className="text-orange-400" />
+            <span>{recipe.servings} servings</span>
+          </div>
 
-          <span className="rounded-full bg-orange-50 px-2 py-0.5 font-medium text-orange-600">
-            {recipe.difficulty}
-          </span>
+          <div className="flex items-center gap-1">
+            <Star size={13} className="fill-orange-400 text-orange-400" />
+            <span className="font-semibold text-stone-700">
+              {recipe.rating}
+            </span>
+          </div>
         </div>
+
+        {/* Difficulty pill */}
+        <span
+          className={`w-fit rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
+            recipe.difficulty === "Easy"
+              ? "bg-emerald-50 text-emerald-600"
+              : recipe.difficulty === "Medium"
+                ? "bg-amber-50 text-amber-600"
+                : "bg-rose-50 text-rose-600"
+          }`}
+        >
+          {recipe.difficulty}
+        </span>
       </div>
     </Link>
   );

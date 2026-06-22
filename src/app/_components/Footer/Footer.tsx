@@ -8,6 +8,7 @@ import {
   SiX,
   SiYoutube,
 } from "@icons-pack/react-simple-icons";
+import { ChefHat, Send } from "lucide-react";
 
 export default function Footer() {
   const pathname = usePathname();
@@ -17,110 +18,119 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-orange-50 border-t border-orange-100">
-      <div className="mx-auto max-w-7xl px-8 py-12">
-        {/* Top Section */}
-        <div className="grid gap-10 md:grid-cols-4">
+    <footer className="border-t border-stone-100 bg-white">
+      <div className="mx-auto max-w-7xl px-8 py-16">
+        <div className="grid gap-12 sm:grid-cols-2 md:grid-cols-4">
           {/* Brand */}
-          <div>
-            <h2 className="text-3xl font-bold">
-              Recipe <span className="text-orange-500">Studio</span>
-            </h2>
-
-            <p className="mt-4 text-sm leading-6 text-gray-600">
+          <div className="space-y-4">
+            <Link href="/" className="group flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-orange-500 text-white transition duration-300 group-hover:rotate-6">
+                <ChefHat size={16} />
+              </div>
+              <span className="font-serif text-xl font-bold tracking-tight text-stone-900">
+                Recipe<span className="text-orange-500">Studio</span>
+              </span>
+            </Link>
+            <p className="text-sm leading-relaxed text-stone-500">
               Discover delicious recipes from around the world and turn everyday
               ingredients into unforgettable meals.
             </p>
           </div>
 
-          {/* Explore */}
+          {/* Explore links */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold">Explore</h3>
-
-            <div className="space-y-3 text-gray-600">
-              <Link href="/" className="block hover:text-orange-500">
-                Home
-              </Link>
-
-              <Link href="/recipes" className="block hover:text-orange-500">
-                Recipes
-              </Link>
-
-              <Link href="/categories" className="block hover:text-orange-500">
-                Categories
-              </Link>
-
-              <Link href="/contact" className="block hover:text-orange-500">
-                Contact
-              </Link>
-            </div>
+            <h3 className="mb-5 text-sm font-bold uppercase tracking-wider text-stone-400">
+              Explore
+            </h3>
+            <ul className="space-y-3 text-sm font-semibold text-stone-600">
+              {[
+                { label: "Home", href: "/" },
+                { label: "Recipes", href: "/recipes" },
+                { label: "About Us", href: "/about" },
+                { label: "Contact", href: "/contact" },
+              ].map(({ label, href }) => (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    className="transition duration-200 hover:text-orange-500"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Categories */}
+          {/* Popular dishes */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold">Popular Categories</h3>
-
-            <div className="space-y-3 text-gray-600">
-              <p>🥗 Healthy Meals</p>
-
-              <p>🍝 Pasta</p>
-
-              <p>🍰 Desserts</p>
-
-              <p>🥘 Dinner Ideas</p>
-            </div>
+            <h3 className="mb-5 text-sm font-bold uppercase tracking-wider text-stone-400">
+              Popular Dishes
+            </h3>
+            <ul className="space-y-3 text-sm text-stone-500">
+              {[
+                { emoji: "🥗", label: "Healthy Meals" },
+                { emoji: "🍝", label: "Italian Pasta" },
+                { emoji: "🍰", label: "Sweet Desserts" },
+                { emoji: "🥘", label: "Dinner Ideas" },
+              ].map(({ emoji, label }) => (
+                <li
+                  key={label}
+                  className="flex items-center gap-2 font-semibold"
+                >
+                  <span>{emoji}</span>
+                  <span>{label}</span>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Newsletter */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold">Stay Updated</h3>
-
-            <p className="mb-4 text-sm text-gray-600">
-              Get new recipes every week.
+            <h3 className="mb-5 text-sm font-bold uppercase tracking-wider text-stone-400">
+              Stay Updated
+            </h3>
+            <p className="mb-4 text-sm text-stone-500">
+              Get new culinary secrets and recipes delivered every week.
             </p>
-
-            <div className="flex">
+            <div className="relative flex">
               <input
                 type="email"
-                placeholder="Your email"
-                className="w-full rounded-l-full border px-4 py-2 outline-none focus:border-orange-500"
+                placeholder="Your email address"
+                className="w-full rounded-full border border-stone-200 bg-white py-3 pl-4 pr-12 text-xs outline-none transition focus:border-orange-400"
               />
-
-              <button className="rounded-r-full bg-orange-500 px-5 text-white hover:bg-orange-600">
-                Join
+              <button
+                type="button"
+                aria-label="Subscribe"
+                className="absolute right-1.5 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-orange-500 text-white shadow-md shadow-orange-500/10 transition hover:scale-105 hover:bg-orange-600"
+              >
+                <Send size={12} />
               </button>
             </div>
           </div>
         </div>
 
-        {/* Bottom Section */}
-
-        <div className="mt-10 border-t pt-6">
+        {/* Bottom bar */}
+        <div className="mt-16 border-t border-stone-100 pt-8">
           <div className="flex flex-col items-center justify-between gap-5 md:flex-row">
-            <p className="text-sm text-gray-500">
-              © 2026 Recipe Studio. All rights reserved.
+            <p className="text-xs font-medium text-stone-400">
+              © 2026 Recipe Studio. All rights reserved. Built with love for
+              home cooks.
             </p>
-
-            <div className="flex gap-5">
-              <SiFacebook
-                size={22}
-                className="cursor-pointer text-gray-600 hover:text-orange-500"
-              />
-
-              <SiInstagram
-                size={22}
-                className="cursor-pointer text-gray-600 hover:text-orange-500"
-              />
-
-              <SiX
-                size={22}
-                className="cursor-pointer text-gray-600 hover:text-orange-500"
-              />
-
-              <SiYoutube
-                size={22}
-                className="cursor-pointer text-gray-600 hover:text-orange-500"
-              />
+            <div className="flex gap-4">
+              {[
+                { Icon: SiFacebook, label: "Facebook" },
+                { Icon: SiInstagram, label: "Instagram" },
+                { Icon: SiX, label: "Twitter/X" },
+                { Icon: SiYoutube, label: "YouTube" },
+              ].map(({ Icon, label }) => (
+                <button
+                  key={label}
+                  aria-label={label}
+                  className="rounded-full bg-stone-100/50 p-2 text-stone-600 transition duration-300 hover:bg-orange-50 hover:text-orange-500"
+                >
+                  <Icon size={16} />
+                </button>
+              ))}
             </div>
           </div>
         </div>

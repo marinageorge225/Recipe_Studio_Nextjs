@@ -16,13 +16,10 @@ export async function getRecipes(
     throw new Error(`Failed to fetch recipes (${res.status})`);
   }
 
-  return res.json();
+  return res.json() as Promise<RecipesResponse>;
 }
 
 export async function getAllRecipes(): Promise<Recipe[]> {
-  // Ask for the smallest page first just to read the real `total`,
-  // then fetch everything in one shot. A hardcoded limit silently
-  // drops anything added via /recipes/import or /recipes/egyptian.
   const first = await getRecipes({ limit: 35, skip: 0 });
 
   if (!first?.recipes) {
@@ -51,7 +48,7 @@ export async function getRecipeById(
     throw new Error(`Failed to fetch recipe ${id} (status ${res.status})`);
   }
 
-  return res.json();
+  return res.json() as Promise<Recipe>;
 }
 
 export async function searchRecipes(query: string): Promise<Recipe[]> {
@@ -65,14 +62,12 @@ export async function searchRecipes(query: string): Promise<Recipe[]> {
     throw new Error(`Failed to search recipes (status ${res.status})`);
   }
 
-  // /recipes/search returns a plain Recipe[], not a paginated object.
-  return res.json();
+  return res.json() as Promise<Recipe[]>;
 }
 
 export async function getRecipesByMealType(
   mealType: string,
 ): Promise<Recipe[]> {
-  // Matches the backend's actual route: GET /recipes/meal/search?meal=...
   const res = await fetch(
     `${BASE_URL}/meal/search?meal=${encodeURIComponent(mealType)}`,
     { next: { revalidate: DEFAULT_REVALIDATE } },
@@ -84,8 +79,7 @@ export async function getRecipesByMealType(
     );
   }
 
-  // Also a plain array, same as searchRecipes.
-  return res.json();
+  return res.json() as Promise<Recipe[]>;
 }
 
 export function getCuisines(recipes: Recipe[]): string[] {

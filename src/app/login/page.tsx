@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { ChefHat, Mail, Lock, Loader2 } from "lucide-react";
 import { isAuthenticated, saveAuth } from "../../../lib/auth";
 
-const API_URL = "http://localhost:3001";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -16,7 +16,7 @@ export default function LoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  // Already signed in? Skip the login form entirely.
+  // Already signed in? Redirect away from login.
   useEffect(() => {
     if (isAuthenticated()) {
       router.replace("/");
@@ -39,7 +39,7 @@ export default function LoginPage() {
 
       if (!res.ok) {
         setError(
-          data.message ||
+          data.message ??
             "Couldn't sign you in. Check your details and try again.",
         );
         return;
@@ -63,8 +63,8 @@ export default function LoginPage() {
 
       <div className="relative w-full max-w-md">
         <div className="rounded-[2rem] border border-orange-100 bg-white/90 p-8 shadow-xl shadow-orange-100/50 backdrop-blur-sm sm:p-10">
-          {/* Badge */}
-          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-orange-400 to-rose-400 shadow-lg shadow-orange-200">
+          {/* Icon */}
+          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-orange-400 to-rose-400 shadow-lg shadow-orange-200">
             <ChefHat className="h-8 w-8 text-white" />
           </div>
 
@@ -94,10 +94,11 @@ export default function LoginPage() {
                 <input
                   type="email"
                   required
+                  autoComplete="email"
                   placeholder="you@example.com"
-                  className="w-full rounded-xl border border-stone-200 bg-stone-50 py-3 pl-11 pr-4 text-sm text-stone-800 outline-none transition focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  className="w-full rounded-xl border border-stone-200 bg-stone-50 py-3 pl-11 pr-4 text-sm text-stone-800 outline-none transition focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
                 />
               </div>
             </div>
@@ -111,10 +112,11 @@ export default function LoginPage() {
                 <input
                   type="password"
                   required
+                  autoComplete="current-password"
                   placeholder="••••••••"
-                  className="w-full rounded-xl border border-stone-200 bg-stone-50 py-3 pl-11 pr-4 text-sm text-stone-800 outline-none transition focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  className="w-full rounded-xl border border-stone-200 bg-stone-50 py-3 pl-11 pr-4 text-sm text-stone-800 outline-none transition focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
                 />
               </div>
             </div>
@@ -122,7 +124,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-linear-to-r from-orange-500 to-rose-400 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-orange-200 transition hover:brightness-105 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-rose-400 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-orange-200 transition hover:brightness-105 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
             >
               {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
               {isSubmitting ? "Signing in…" : "Sign in"}

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { ChefHat, Mail, Lock, User, Loader2 } from "lucide-react";
 import { isAuthenticated, saveAuth } from "../../../lib/auth";
 
-const API_URL = "http://localhost:3001";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -15,7 +15,7 @@ export default function RegisterPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  // Already signed in? Skip the register form entirely.
+  // Already signed in? Redirect away from register.
   useEffect(() => {
     if (isAuthenticated()) {
       router.replace("/");
@@ -37,13 +37,13 @@ export default function RegisterPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.message || "Couldn't create your account. Try again.");
+        setError(data.message ?? "Couldn't create your account. Try again.");
         return;
       }
 
-      // Register now signs you in immediately, same as login.
+      // Register signs you in immediately
       saveAuth(data.access_token, data.user);
-      router.push("/");
+      router.push("/login");
     } catch {
       setError("Something went wrong. Is the server running?");
     } finally {
@@ -60,8 +60,8 @@ export default function RegisterPage() {
 
       <div className="relative w-full max-w-md">
         <div className="rounded-[2rem] border border-orange-100 bg-white/90 p-8 shadow-xl shadow-orange-100/50 backdrop-blur-sm sm:p-10">
-          {/* Badge */}
-          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-rose-400 to-orange-400 shadow-lg shadow-orange-200">
+          {/* Icon */}
+          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-rose-400 to-orange-400 shadow-lg shadow-orange-200">
             <ChefHat className="h-8 w-8 text-white" />
           </div>
 
@@ -91,10 +91,11 @@ export default function RegisterPage() {
                 <User className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-stone-400" />
                 <input
                   required
+                  autoComplete="name"
                   placeholder="Your name"
-                  className="w-full rounded-xl border border-stone-200 bg-stone-50 py-3 pl-11 pr-4 text-sm text-stone-800 outline-none transition focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  className="w-full rounded-xl border border-stone-200 bg-stone-50 py-3 pl-11 pr-4 text-sm text-stone-800 outline-none transition focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
                 />
               </div>
             </div>
@@ -108,10 +109,11 @@ export default function RegisterPage() {
                 <input
                   type="email"
                   required
+                  autoComplete="email"
                   placeholder="you@example.com"
-                  className="w-full rounded-xl border border-stone-200 bg-stone-50 py-3 pl-11 pr-4 text-sm text-stone-800 outline-none transition focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  className="w-full rounded-xl border border-stone-200 bg-stone-50 py-3 pl-11 pr-4 text-sm text-stone-800 outline-none transition focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
                 />
               </div>
             </div>
@@ -125,12 +127,13 @@ export default function RegisterPage() {
                 <input
                   type="password"
                   required
+                  autoComplete="new-password"
                   placeholder="••••••••"
-                  className="w-full rounded-xl border border-stone-200 bg-stone-50 py-3 pl-11 pr-4 text-sm text-stone-800 outline-none transition focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
                   value={form.password}
                   onChange={(e) =>
                     setForm({ ...form, password: e.target.value })
                   }
+                  className="w-full rounded-xl border border-stone-200 bg-stone-50 py-3 pl-11 pr-4 text-sm text-stone-800 outline-none transition focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
                 />
               </div>
             </div>
@@ -138,7 +141,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-linear-to-r from-rose-400 to-orange-500 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-orange-200 transition hover:brightness-105 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-rose-400 to-orange-500 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-orange-200 transition hover:brightness-105 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
             >
               {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
               {isSubmitting ? "Creating account…" : "Create account"}
